@@ -1,3 +1,5 @@
+require 'language_pack/shell_helpers'
+
 module LanguagePack
   module Hooks
     module Compile
