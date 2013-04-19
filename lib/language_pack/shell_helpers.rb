@@ -22,7 +22,7 @@ module LanguagePack
     def try_run(command_file, _topic=command_file)
       if File.executable? command_file
         topic _topic
-        run command_line
+        run command_file
       end
     end
 
