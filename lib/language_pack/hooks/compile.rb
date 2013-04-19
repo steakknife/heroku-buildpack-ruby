@@ -3,6 +3,7 @@ require 'language_pack/shell_helpers'
 module LanguagePack
   module Hooks
     module Compile
+      include LanguagePack::ShellHelpers
       extend self
 
       def hooks
