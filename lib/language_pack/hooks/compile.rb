@@ -14,11 +14,17 @@ module LanguagePack
 
     private
       def before
-        try_run 'bin/before_compile', 'Running before compile hook bin/before_compile'
+        if ENV.include? 'BUILDPACK_PRE_COMPILE'
+          topic 'Running pre-compile command'
+          run ENV['BUILDPACK_PRE_COMPILE']
+        end
       end
 
       def after
-        try_run 'bin/after_compile', 'Running after compile hook bin/after_compile'
+        if ENV.include? 'BUILDPACK_POST_COMPILE'
+          topic 'Running post-compile command'
+          run ENV['BUILDPACK_POST_COMPILE']
+        end
       end
     end
   end
