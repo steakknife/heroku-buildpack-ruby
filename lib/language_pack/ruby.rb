@@ -3,6 +3,7 @@ require "rubygems"
 require "language_pack"
 require "language_pack/base"
 require "language_pack/bundler_lockfile"
+require "language_pack/hooks/compile"
 
 # base Ruby Language Pack. This is for any base ruby app.
 class LanguagePack::Ruby < LanguagePack::Base
@@ -78,11 +79,13 @@ class LanguagePack::Ruby < LanguagePack::Base
     setup_language_pack_environment
     setup_profiled
     allow_git do
-      install_language_pack_gems
-      build_bundler
-      create_database_yml
-      install_binaries
-      run_assets_precompile_rake_task
+      LanguagePack::Hooks::Compile.hooks do
+        install_language_pack_gems
+        build_bundler
+        create_database_yml
+        install_binaries
+        run_assets_precompile_rake_task
+      end
     end
   end
 

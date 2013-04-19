@@ -19,6 +19,13 @@ module LanguagePack
       %x{ #{command} 2>&1 }
     end
 
+    def try_run(command_file, _topic=command_file)
+      if File.executable? command_file
+        topic _topic
+        run command_line
+      end
+    end
+
     # run a shell command and pipe stderr to /dev/null
     # @param [String] command to be run
     # @return [String] output of stdout
