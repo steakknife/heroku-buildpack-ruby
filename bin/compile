@@ -12,8 +12,16 @@ begin
     if pack = LanguagePack.detect(ARGV[0], ARGV[1])
       LanguagePack::ShellHelpers.initialize_env(ARGV[2])
       pack.topic("Compiling #{pack.name}")
+      if File.executable? "#{ENV['BUILD_DIR']}/bin/pre_compile"
+        puts("-----> Running bin/pre_compile")
+        system("#{ENV['BUILD_DIR']}/bin/pre_compile", ENV['BUILD_DIR'], ENV['CACHE_DIR'])
+      end
       pack.log("compile") do
         pack.compile
+      end
+      if File.executable? "#{ENV['BUILD_DIR']}/bin/post_compile"
+        puts("-----> Running bin/post_compile")
+        system("#{ENV['BUILD_DIR']}/bin/pre_compile", ENV['BUILD_DIR'], ENV['CACHE_DIR'])
       end
     end
   end

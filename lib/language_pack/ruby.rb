@@ -81,6 +81,11 @@ class LanguagePack::Ruby < LanguagePack::Base
       # check for new app at the beginning of the compile
       new_app?
       Dir.chdir(build_path)
+      if File.file? 'bin/pre_compile'
+        topic("Running bin/pre_compile")
+        run('chmod +x bin/pre_compile')
+        run("./bin/pre_compile '#{build_path}' '#{cache_path}'")
+      end
       remove_vendor_bundle
       install_ruby
       install_jvm
@@ -94,6 +99,11 @@ class LanguagePack::Ruby < LanguagePack::Base
         create_database_yml
         install_binaries
         run_assets_precompile_rake_task
+        if File.file? 'bin/post_compile'
+          topic("Running bin/post_compile")
+          run('chmod +x bin/post_compile')
+          run("./bin/post_compile '#{build_path}' '#{cache_path}'")
+        end
       end
       super
     end
