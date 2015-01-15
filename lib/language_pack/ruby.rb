@@ -37,7 +37,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   end
 
   def initialize(build_path, cache_path=nil)
-    super(build_path, cache_path)
+    super(build_path, @cache_path = cache_path)
     @fetchers[:mri]    = LanguagePack::Fetcher.new(VENDOR_URL, @stack)
     @fetchers[:rbx]    = LanguagePack::Fetcher.new(RBX_BASE_URL, @stack)
     @node_installer    = LanguagePack::NodeInstaller.new(@stack)
@@ -84,7 +84,7 @@ class LanguagePack::Ruby < LanguagePack::Base
       if File.file? 'bin/pre_compile'
         topic("Running bin/pre_compile")
         run('chmod +x bin/pre_compile')
-        run("./bin/pre_compile '#{build_path}' '#{cache_path}'")
+        run("./bin/pre_compile '#{build_path}' '#{@cache_path}'")
       end
       remove_vendor_bundle
       install_ruby
@@ -102,7 +102,7 @@ class LanguagePack::Ruby < LanguagePack::Base
         if File.file? 'bin/post_compile'
           topic("Running bin/post_compile")
           run('chmod +x bin/post_compile')
-          run("./bin/post_compile '#{build_path}' '#{cache_path}'")
+          run("./bin/post_compile '#{build_path}' '#{@cache_path}'")
         end
       end
       super
